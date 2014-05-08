@@ -42,6 +42,8 @@ private slots:
 
   void on_pushButtonContinousStreamStop_clicked();
 
+  void on_pushButtoResetPose_clicked();
+
 private:
   void addPointTo3D(double x, double y, double z);
   QByteArray formatRequest(u_int8_t transactionID, u_int8_t functionCode);

@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
   ui->setupUi(this);
   myTcpSocket = new QTcpSocket(this);
-  myTcpSocket->connectToHost("192.168.1.116",2000);
+  myTcpSocket->connectToHost("127.0.0.1",2000);
   if(myTcpSocket->waitForConnected(1000))
     ui->labelConnectionStatus->setText("Connected");
   else
@@ -125,8 +125,7 @@ void MainWindow::on_pushButtonAddImgToOdo_clicked()
   myTcpSocket->flush();
 }
 
-void MainWindow::on_pushButtonLoadCalibration_clicked()
-{
+void MainWindow::on_pushButtonLoadCalibration_clicked(){
   QByteArray array = formatRequest(0,LOAD_CALIBRATION);
   myTcpSocket->write(array);
   myTcpSocket->flush();
@@ -141,9 +140,7 @@ QByteArray MainWindow::formatRequest(u_int8_t transactionID, u_int8_t functionCo
   array.push_back(STOP_BYTE);
   return array;
 }
-
-void MainWindow::on_pushButtonCreateVisoObject_clicked()
-{
+void MainWindow::on_pushButtonCreateVisoObject_clicked(){
   QByteArray array = formatRequest(0,CREATE_VISO_OBJECT);
   myTcpSocket->write(array);
   myTcpSocket->flush();
@@ -182,7 +179,6 @@ void MainWindow::on_pushButtonContinousStream_clicked(){
   array.push_back(STOP_BYTE);
   myTcpSocket->write(array);
 }
-
 void MainWindow::on_pushButtonContinousStreamStop_clicked(){
   QByteArray array;
   array.push_back(START_BYTE);
@@ -193,7 +189,6 @@ void MainWindow::on_pushButtonContinousStreamStop_clicked(){
   array.push_back(STOP_BYTE);
   myTcpSocket->write(array);
 }
-
 void MainWindow::addPointTo3D(double x, double y, double z){
   QList<float> point;
   point.push_back(x);
@@ -201,4 +196,13 @@ void MainWindow::addPointTo3D(double x, double y, double z){
   point.push_back(z);
   this->ui->myGLWidget->myPoints.push_back(point);
   this->ui->myGLWidget->update();
+}
+
+void MainWindow::on_pushButtoResetPose_clicked()
+{
+  QByteArray array = formatRequest(0,RESET_POSE);
+  myTcpSocket->write(array);
+  myTcpSocket->flush();
+  ui->myGLWidget->myPoints.clear();
+  ui->myGLWidget->update();
 }
