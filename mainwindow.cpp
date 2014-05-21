@@ -4,7 +4,11 @@ MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
+  heightCalibrationState = false;
+  numberOfHeightCalibrationSamples = 0;
   pose = new double[12];
+  for(int i=0; i<12; i++)
+    pose[i] = 0;
 
   ui->setupUi(this);
   myTcpSocket = new QTcpSocket(this);
@@ -59,6 +63,13 @@ void MainWindow::readData(){
           ui->textEditPose->append("");
         }
       addPointTo3D(pose[3], pose[7], pose[11]);
+
+      if(functionCode == ADD_IMG_TO_ODOMETRY){
+          numberOfHeightCalibrationSamples++;
+          if(numberOfHeightCalibrationSamples>5){
+              ui->pushButtonCalibrateHeightGo->setEnabled(true);
+            }
+        }
     }
   if((functionCode == CALIBRATE_CAMERA || functionCode == LOAD_CALIBRATION ) && length == 9*sizeof(double)){
       ui->textEditPose->clear();
@@ -149,6 +160,7 @@ void MainWindow::on_pushButtonCreateVisoObject_clicked(){
 void MainWindow::on_pushButtonChangeParameters_clicked()
 {
   double height = ui->lineEditHeight->text().toDouble();
+  cameraHeight = height;
   double pitch = ui->lineEditPitch->text().toDouble();
   QByteArray array;
   array.push_back(START_BYTE);
@@ -205,4 +217,25 @@ void MainWindow::on_pushButtoResetPose_clicked()
   myTcpSocket->flush();
   ui->myGLWidget->myPoints.clear();
   ui->myGLWidget->update();
+}
+
+void MainWindow::on_pushButtonCalibrateHeight_clicked()
+{
+  numberOfHeightCalibrationSamples = 0;
+
+  double distance;
+  if(distance = ui->lineEditDistance->text().toFloat()){
+    heightCalibrationState = true;
+    heightCalibrationUserDistance = distance;
+    heightCalibrationStartPosition = pose[11]; //pose 11 is Z coordinate, camera moves along Z coordinate
+    }
+}
+
+void MainWindow::on_pushButtonCalibrateHeightGo_clicked()
+{
+  heightCalibrationEndPosition = pose[11];
+  double difference = heightCalibrationEndPosition-heightCalibrationStartPosition;
+  double realHeight = cameraHeight*(heightCalibrationUserDistance*numberOfHeightCalibrationSamples/difference);
+  ui->lineEditHeight->setText(QString::number(realHeight));
+  ui->pushButtonCalibrateHeightGo->setEnabled(false);
 }

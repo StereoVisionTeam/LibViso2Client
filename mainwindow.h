@@ -44,12 +44,23 @@ private slots:
 
   void on_pushButtoResetPose_clicked();
 
+  void on_pushButtonCalibrateHeight_clicked();
+
+  void on_pushButtonCalibrateHeightGo_clicked();
+
 private:
   void addPointTo3D(double x, double y, double z);
   QByteArray formatRequest(u_int8_t transactionID, u_int8_t functionCode);
   double *pose;
   Ui::MainWindow *ui;
   QTcpSocket *myTcpSocket ;
+
+  double cameraHeight;
+  bool heightCalibrationState;
+  int numberOfHeightCalibrationSamples;
+  double heightCalibrationStartPosition;
+  double heightCalibrationEndPosition;
+  double heightCalibrationUserDistance;
 };
 
 #endif // MAINWINDOW_H
