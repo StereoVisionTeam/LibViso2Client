@@ -145,7 +145,6 @@
       <height>501</height>
      </rect>
     </property>
-    <zorder>tabWidget</zorder>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
@@ -315,24 +314,22 @@
       </property>
       <property name="plainText">
        <string>Initialize:
-1. Click &quot;Create VisoObject&quot;
-2. Click &quot;Load Calibration&quot; or Calibrate Camera(instruction below)
-3. Enter Params(Height and pitch)
-4. Click &quot;Change Parameters
-Camera&quot;
-5. Click &quot;Reset Pose&quot;
-Calibrate Camera:
-1. Click &quot;Calibrate Camera&quot;
-2. Enter Pattern Size and Click &quot;Set Pattern Size&quot;
-3. Click Add &quot;Calib Sample&quot;
-Calibration Matrix is Auto Saved
-Start Odometry Manual:
-1. Click Get Image
-2. Click Add Image to Odometry
-Start Continous Stream:
-1. Click Continous StreamStart
-2. To end click Continous StreamStop
-</string>
+1. Open Video
+2. Load Calibration or Calibrate Camera
+   a) If Calibrate Camera:
+       -Set Pattern Size
+       -Repeat &quot;Get Image&quot; &quot;Add Calib Sample&quot; at least 10 times
+       - Calibrate Camera
+4. Change Camera Position Parameters if you need (Change Parameters, height, pitch)
+
+Odometry:
+1. Create VisoObject
+    a) Continous
+    - Continous StreamStart
+    - Continous StreamStop
+    b) By Hand
+    - Get Image
+    - Add Image to Odometry</string>
       </property>
      </widget>
     </widget>
@@ -353,18 +350,12 @@ Start Continous Stream:
        <bool>true</bool>
       </property>
       <property name="plainText">
-       <string>Initialize:
-1. Click &quot;Create VisoObject&quot;
-2. Click &quot;Load Calibration&quot; or Calibrate Camera(instruction below)
-3. Enter Params(Height and pitch)
-4. Click &quot;Change Parameters
+       <string>After Odometry Initialization
+1. Enter Params(Height and pitch)
+2. Click &quot;Change Parameters
 Camera&quot;
-5. Click &quot;Reset Pose&quot;
-Calibrate Camera:
-1. Click &quot;Calibrate Camera&quot;
-2. Enter Pattern Size and Click &quot;Set Pattern Size&quot;
-3. Click Add &quot;Calib Sample&quot;
-Calibration Matrix is Auto Saved
+3. Click &quot;Reset Pose&quot;
+
 Height Calibration:
 1. Enter Distance in m
 2. Click &quot;Calibrate Height&quot;
@@ -392,13 +383,13 @@ Height Calibration:
      <string>Help</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>420</y>
-      <width>127</width>
-      <height>104</height>
+      <width>132</width>
+      <height>118</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -433,19 +424,15 @@ Height Calibration:
    </widget>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
    <zorder>myGLWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>layoutWidget</zorder>
    <zorder>label_5</zorder>
-   <zorder>pushButtonCalibrateHeight</zorder>
    <zorder>tabWidget</zorder>
    <zorder>label_7</zorder>
-   <zorder>label_6</zorder>
-   <zorder>lineEditDistance</zorder>
-   <zorder>pushButtonCalibrateHeightGo</zorder>
-   <zorder>labelPose</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -453,7 +440,7 @@ Height Calibration:
      <x>0</x>
      <y>0</y>
      <width>1033</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
